@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Independent SAP S/4HANA Finance Architect | Roads to HANA</title>
+  <meta name="description" content="Independent SAP S/4HANA Finance architecture and advisory for CFOs, Finance leaders and consulting firms. Client-side design authority, SI assurance, R2R, Product Costing, Group Reporting, RAR, Public Cloud, Private Cloud and on-premise." />
+  <meta name="keywords" content="SAP S/4HANA Finance Architect, Independent SAP Advisor, SAP Finance Consultant, SAP R2R Consultant, SAP Product Costing Consultant, SAP Public Cloud Finance, SAP S/4HANA Design Assurance, SAP SI QA" />
+  <meta name="author" content="Ramsara Garvis Consulting LLC" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+
+  <link rel="canonical" href="https://roadstohana.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://roadstohana.com/" />
+  <meta property="og:title" content="Independent SAP S/4HANA Finance Architect | Roads to HANA" />
+  <meta property="og:description" content="Put an independent SAP S/4HANA Finance architect on your side of the table." />
+  <meta property="og:site_name" content="Roads to HANA" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Independent SAP S/4HANA Finance Architect | Roads to HANA" />
+  <meta name="twitter:description" content="Client-side SAP Finance architecture, design assurance and implementation advisory." />
+
+  <style>
+    :root{
+      --bg:#07111d;
+      --bg2:#0c1826;
+      --panel:#101f2f;
+      --panel2:#13263a;
+      --text:#f4f7fb;
+      --muted:#afbed0;
+      --line:rgba(255,255,255,.12);
+      --green:#6fca75;
+      --brown:#c89663;
+      --blue:#5fa8ff;
+      --gold:#e3b767;
+      --white:#ffffff;
+      --shadow:0 20px 55px rgba(0,0,0,.24);
+      --radius:22px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(95,168,255,.12), transparent 28%),
+        radial-gradient(circle at 14% 18%, rgba(111,202,117,.08), transparent 24%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%}
+    .wrap{width:min(var(--max),calc(100% - 38px));margin:auto}
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--gold);
+      font-size:.76rem;
+      font-weight:800;
+    }
+    .muted{color:var(--muted)}
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 12px;
+      color:#d9e4f0;
+      font-size:.86rem;
+      background:rgba(255,255,255,.035);
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(7,17,29,.88);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      min-height:70px;
+      gap:24px;
+    }
+    .brand{
+      font-weight:900;
+      letter-spacing:-.02em;
+      font-size:1.03rem;
+      white-space:nowrap;
+    }
+    .brand small{
+      display:block;
+      font-size:.7rem;
+      color:var(--muted);
+      font-weight:600;
+      letter-spacing:.02em;
+      margin-top:-2px;
+    }
+    .links{display:flex;gap:18px;align-items:center;font-size:.9rem;color:#d7e1ec}
+    .links a:hover{color:white}
+    .nav-cta{
+      border:1px solid rgba(227,183,103,.7);
+      color:#ffdf9f;
+      padding:9px 13px;
+      border-radius:999px;
+      font-weight:800;
+    }
+
+    section{padding:88px 0}
+    .hero{padding:90px 0 70px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.14fr .86fr;
+      gap:44px;
+      align-items:center;
+    }
+    h1{
+      font-size:clamp(2.6rem,6vw,5.7rem);
+      line-height:.98;
+      letter-spacing:-.055em;
+      margin:12px 0 22px;
+      max-width:880px;
+    }
+    h2{
+      font-size:clamp(2rem,4vw,3.55rem);
+      line-height:1.04;
+      letter-spacing:-.045em;
+      margin:8px 0 18px;
+    }
+    h3{font-size:1.25rem;line-height:1.2;margin:8px 0 10px}
+    .hero-lead{
+      max-width:760px;
+      color:#c8d5e3;
+      font-size:1.12rem;
+    }
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 18px;
+      border-radius:999px;
+      font-weight:850;
+      border:1px solid var(--line);
+    }
+    .btn.primary{background:#f5f7fb;color:#09121c}
+    .btn.secondary{background:rgba(255,255,255,.04)}
+    .hero-card{
+      padding:28px;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+      box-shadow:var(--shadow);
+    }
+    .hero-card strong{font-size:2.1rem;display:block;letter-spacing:-.05em}
+    .metric-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:18px;
+    }
+    .metric{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:15px;
+      background:rgba(255,255,255,.025);
+    }
+    .metric b{font-size:1.55rem;display:block}
+    .metric span{font-size:.8rem;color:var(--muted)}
+
+    .statement{
+      padding:30px;
+      border-left:4px solid var(--gold);
+      border-radius:0 var(--radius) var(--radius) 0;
+      background:linear-gradient(90deg,rgba(227,183,103,.12),rgba(255,255,255,.025));
+      font-size:clamp(1.35rem,3vw,2.25rem);
+      line-height:1.2;
+      letter-spacing:-.03em;
+    }
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .card{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.025);
+      border-radius:var(--radius);
+      padding:25px;
+    }
+    .card:hover{background:rgba(255,255,255,.04)}
+    .card p{color:var(--muted);margin-bottom:0}
+    .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+
+    .advisor{
+      background:
+        linear-gradient(180deg,rgba(95,168,255,.06),transparent 36%),
+        var(--bg2);
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+    .advisor-panel{
+      border:1px solid rgba(95,168,255,.28);
+      border-radius:28px;
+      padding:34px;
+      background:linear-gradient(145deg,rgba(95,168,255,.09),rgba(255,255,255,.018));
+      box-shadow:var(--shadow);
+    }
+    .advisor-title{max-width:850px}
+    .advisor-copy{font-size:1.1rem;max-width:850px;color:#cedaea}
+    .si-list{
+      display:flex;flex-wrap:wrap;gap:9px;
+      margin:24px 0 4px;
+    }
+    .si-list span{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      padding:7px 11px;
+      color:#dce6f0;
+      font-size:.82rem;
+      background:rgba(255,255,255,.025)
+    }
+
+    .roadmap{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+    .road{
+      min-height:240px;
+      padding:25px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      position:relative;
+      overflow:hidden;
+    }
+    .road:before{
+      content:"";
+      position:absolute;
+      left:0;top:0;bottom:0;
+      width:5px;
+    }
+    .road.green:before{background:var(--green)}
+    .road.brown:before{background:var(--brown)}
+    .road.blue:before{background:var(--blue)}
+    .road h3{font-size:1.45rem}
+    .road p{color:var(--muted)}
+
+    .service{
+      display:grid;
+      grid-template-columns:110px 1fr;
+      gap:24px;
+      padding:26px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .service:last-child{border-bottom:0}
+    .service-num{
+      font-size:2.1rem;
+      font-weight:900;
+      color:rgba(255,255,255,.2);
+    }
+
+    .experience-item{
+      display:grid;
+      grid-template-columns:170px 1fr;
+      gap:24px;
+      padding:25px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .experience-item:last-child{border-bottom:0}
+    .experience-date{color:var(--gold);font-weight:800}
+    .experience-item ul{padding-left:18px;color:var(--muted)}
+
+    .cta{
+      padding:42px;
+      border-radius:28px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(circle at 92% 0%,rgba(111,202,117,.13),transparent 35%),
+        linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.02));
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      gap:24px;
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:32px 0 50px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+    .footer-grid{
+      display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
+    }
+
+    @media(max-width:900px){
+      .links{display:none}
+      .hero-grid,.grid-3,.grid-2,.roadmap,.cta{grid-template-columns:1fr}
+      .hero{padding-top:62px}
+      .hero-card{order:2}
+      .experience-item{grid-template-columns:1fr;gap:4px}
+      .service{grid-template-columns:72px 1fr}
+    }
+    @media(max-width:560px){
+      .wrap{width:min(var(--max),calc(100% - 26px))}
+      section{padding:64px 0}
+      .hero{padding:50px 0}
+      h1{font-size:2.8rem}
+      .metric-grid{grid-template-columns:1fr 1fr}
+      .advisor-panel,.cta{padding:24px}
+      .service{grid-template-columns:1fr;gap:4px}
+      .service-num{font-size:1rem}
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ProfessionalService",
+    "name":"Ramsara Garvis Consulting LLC",
+    "alternateName":"Roads to HANA",
+    "url":"https://roadstohana.com/",
+    "description":"Independent SAP S/4HANA Finance architecture, design assurance and advisory.",
+    "areaServed":["United States","Europe","Asia Pacific"],
+    "serviceType":[
+      "SAP S/4HANA Finance Architecture",
+      "Independent SAP Design Assurance",
+      "Record-to-Report Advisory",
+      "Product Costing Advisory",
+      "Group Reporting Advisory",
+      "Revenue Accounting and Reporting",
+      "SAP Public Cloud Finance Advisory",
+      "SAP Pre-sales Support"
+    ],
+    "founder":{
+      "@type":"Person",
+      "name":"Srini Murthy",
+      "jobTitle":"SAP S/4HANA Finance Architect"
+    },
+    "contactPoint":{
+      "@type":"ContactPoint",
+      "email":"crsrini@icloud.com",
+      "telephone":"+1-619-250-9663",
+      "contactType":"sales"
+    },
+    "sameAs":[
+      "https://www.linkedin.com/in/srini-cr"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"Srini Murthy",
+    "url":"https://roadstohana.com/",
+    "jobTitle":"Independent SAP S/4HANA Finance Architect",
+    "worksFor":{
+      "@type":"Organization",
+      "name":"Ramsara Garvis Consulting LLC"
+    },
+    "knowsAbout":[
+      "SAP S/4HANA Finance",
+      "Record-to-Report",
+      "Controlling",
+      "Product Costing",
+      "Group Reporting",
+      "Revenue Accounting and Reporting",
+      "SAP Public Cloud",
+      "SAP Private Cloud",
+      "SAP S/4HANA On-Premise"
+    ],
+    "sameAs":[
+      "https://www.linkedin.com/in/srini-cr"
+    ]
+  }
+  </script>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      Roads to HANA
+      <small>Ramsara Garvis Consulting LLC</small>
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="#advisor">Independent Advisor</a>
+      <a href="#approach">Roadmap</a>
+      <a href="#services">Services</a>
+      <a href="#experience">Experience</a>
+      <a href="#firms">Consulting Firms</a>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Independent SAP S/4HANA Finance Architecture</div>
+        <h1>Put an architect on <em>your</em> side of the table.</h1>
+        <p class="hero-lead">
+          Client-side SAP S/4HANA Finance architecture, design authority and implementation assurance for CFOs,
+          Finance leaders and transformation teams — independent of the system integrator.
+        </p>
+        <div class="tag-row">
+          <span class="pill">Public Cloud</span>
+          <span class="pill">Private Cloud / NS2</span>
+          <span class="pill">On-Premise</span>
+          <span class="pill">R2R</span>
+          <span class="pill">Product Costing</span>
+          <span class="pill">Group Reporting</span>
+          <span class="pill">RAR</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn primary" href="#contact">Start a conversation</a>
+          <a class="btn secondary" href="#advisor">Why independent architecture?</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Experience summary">
+        <div class="eyebrow">Architect-led advisory</div>
+        <strong>30 years in SAP Finance</strong>
+        <p class="muted">
+          Engagements are led by the architect who scoped them — not handed to a bench.
+        </p>
+        <div class="metric-grid">
+          <div class="metric"><b>38+</b><span>Implementations</span></div>
+          <div class="metric"><b>12</b><span>Full-cycle programs</span></div>
+          <div class="metric"><b>5</b><span>S/4HANA Cloud go-lives</span></div>
+          <div class="metric"><b>12+</b><span>Global templates</span></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section style="padding-top:28px">
+    <div class="wrap">
+      <div class="statement">
+        Already have an SI? Keep the architecture, challenge function and Finance design authority on the client side.
+      </div>
+    </div>
+  </section>
+
+  <section class="advisor" id="advisor">
+    <div class="wrap">
+      <div class="advisor-panel">
+        <div class="eyebrow">Independent design authority</div>
+        <h2 class="advisor-title">Your architect at the table — not the SI's.</h2>
+        <p class="advisor-copy">
+          Working with a major SAP implementation partner? I provide client-side design leadership and implementation
+          assurance — reviewing SI recommendations before they harden into build, protecting Finance requirements,
+          challenging unnecessary complexity and reducing delivery risk.
+        </p>
+
+        <div class="si-list" aria-label="Examples of system integrators">
+          <span>NTT DATA</span><span>Accenture</span><span>Deloitte</span><span>Capgemini</span>
+          <span>IBM</span><span>Cognizant</span><span>Infosys</span><span>TCS</span><span>Other SAP SIs</span>
+        </div>
+
+        <div class="grid-3" style="margin-top:28px">
+          <article class="card">
+            <div class="eyebrow">Before build</div>
+            <h3>Design assurance</h3>
+            <p>Review scope, architecture, ledgers, organizational design, integrations, fit-to-standard decisions and backlog before they become expensive.</p>
+          </article>
+          <article class="card">
+            <div class="eyebrow">During delivery</div>
+            <h3>SI challenge function</h3>
+            <p>Read proposals with a skeptical eye, test assumptions, protect standard where it matters and force traceability from requirement to configuration.</p>
+          </article>
+          <article class="card">
+            <div class="eyebrow">At risk</div>
+            <h3>Workstream rescue</h3>
+            <p>Step into troubled Finance, R2R, costing, RAR or integration workstreams with a defined remediation plan and hands-on architecture support.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="approach">
+    <div class="wrap">
+      <div class="eyebrow">Executive roadmap</div>
+      <h2>Three roads lead to HANA.</h2>
+      <p class="muted" style="max-width:820px">
+        The technology route matters because it changes the Finance design, data, controls, testing burden and operating model.
+        Choose the road deliberately.
+      </p>
+
+      <div class="roadmap" style="margin-top:28px">
+        <article class="road green">
+          <div class="eyebrow">Greenfield</div>
+          <h3>Build new on standard</h3>
+          <p>Use when the legacy design is itself the problem. Rebuild the operating model, chart of accounts, controls and processes around the future state.</p>
+          <div class="pill">GROW / Fit-to-Standard</div>
+        </article>
+        <article class="road brown">
+          <div class="eyebrow">Brownfield</div>
+          <h3>Convert in place</h3>
+          <p>Preserve history and configuration where it still serves the business. The assessment matters more than the migration because old compromises come with it.</p>
+          <div class="pill">RISE / Conversion</div>
+        </article>
+        <article class="road blue">
+          <div class="eyebrow">Bluefield</div>
+          <h3>Selective transition</h3>
+          <p>Keep what works and rebuild what does not. Often the practical answer for large landscapes that need both continuity and redesign.</p>
+          <div class="pill">Hybrid / Selective</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <div class="eyebrow">SAP S/4HANA Finance services</div>
+      <h2>Six areas where the work actually gets decided.</h2>
+
+      <div class="service">
+        <div class="service-num">01</div>
+        <div>
+          <h3>Independent SAP S/4HANA Finance architecture</h3>
+          <p class="muted">Global template design, organizational structure, chart of accounts, parallel ledgers, currencies, document splitting, controls and architecture decisions across Public Cloud, Private Cloud and on-premise.</p>
+        </div>
+      </div>
+
+      <div class="service">
+        <div class="service-num">02</div>
+        <div>
+          <h3>Record-to-Report and Finance transformation</h3>
+          <p class="muted">GL, AR, AP, Asset Accounting, closing, intercompany, consolidation, financial reporting and end-to-end R2R governance.</p>
+        </div>
+      </div>
+
+      <div class="service">
+        <div class="service-num">03</div>
+        <div>
+          <h3>Controlling and Product Costing</h3>
+          <p class="muted">Cost center accounting, COPA / Margin Analysis, product costing, overhead costing, costing sheets, Material Ledger, production variance and integration with PP and MM.</p>
+        </div>
+      </div>
+
+      <div class="service">
+        <div class="service-num">04</div>
+        <div>
+          <h3>RAR, project accounting and complex revenue</h3>
+          <p class="muted">Revenue Accounting and Reporting, IFRS 15 / ASC 606, project-based accounting and integration with Project Systems, billing and Controlling.</p>
+        </div>
+      </div>
+
+      <div class="service">
+        <div class="service-num">05</div>
+        <div>
+          <h3>Group Reporting and multi-GAAP architecture</h3>
+          <p class="muted">Group consolidation, parallel accounting principles, local and group reporting, currency design, hybrid consolidation landscapes and phased global rollouts.</p>
+        </div>
+      </div>
+
+      <div class="service">
+        <div class="service-num">06</div>
+        <div>
+          <h3>Cross-functional Finance integration</h3>
+          <p class="muted">Where FI meets MM, SD, PP and PS: intercompany, subcontracting, transfer pricing, billing, event-based accounting, WIP, variance and the postings a CFO ultimately sees.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="firms">
+    <div class="wrap">
+      <div class="eyebrow">For consulting organizations</div>
+      <h2>Senior SAP Finance depth without permanent bench.</h2>
+      <p class="muted" style="max-width:850px">
+        I also support consulting firms that need architecture depth for a pursuit, demo, difficult workstream, client escalation
+        or specialist gap — without adding a permanent senior resource to the bench.
+      </p>
+
+      <div class="grid-3" style="margin-top:28px">
+        <article class="card">
+          <div class="eyebrow">Pre-sales</div>
+          <h3>Finance demos that survive CFO questions</h3>
+          <p>Scenario design, configuration, master and transactional data setup, demo runbooks, objection handling and executive narrative.</p>
+        </article>
+        <article class="card">
+          <div class="eyebrow">Delivery</div>
+          <h3>Architecture augmentation</h3>
+          <p>Selective hands-on support for R2R, Product Costing, RAR, Group Reporting and cross-functional Finance integration.</p>
+        </article>
+        <article class="card">
+          <div class="eyebrow">Recovery</div>
+          <h3>Escalation and workstream rescue</h3>
+          <p>Independent review of stalled designs, configuration disputes, testing failures and Finance issues that need senior intervention quickly.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <div class="eyebrow">How we engage</div>
+      <h2>Five ways to put an architect on your side of the table.</h2>
+
+      <div class="grid-2" style="margin-top:26px">
+        <article class="card">
+          <div class="eyebrow">Trusted advisor</div>
+          <h3>Standing advisory retainer</h3>
+          <p>A reserved block of senior architecture time for CFOs and program leads who have an SI but no independent architect of their own.</p>
+        </article>
+
+        <article class="card">
+          <div class="eyebrow">Design assurance</div>
+          <h3>Independent architecture review</h3>
+          <p>A focused review before build or before a major design gate, with findings, risks, decisions and remediation actions.</p>
+        </article>
+
+        <article class="card">
+          <div class="eyebrow">Pre-sales support</div>
+          <h3>Demo preparation for consulting organizations</h3>
+          <p>Architecture, scenario scripting, system setup, runbooks and executive objection handling for SAP Finance pursuits.</p>
+        </article>
+
+        <article class="card">
+          <div class="eyebrow">Before the program</div>
+          <h3>Project planning and readiness</h3>
+          <p>Transition route, scope, phasing, workstream model, design decisions, testing strategy and an honest steering-committee risk register.</p>
+        </article>
+
+        <article class="card">
+          <div class="eyebrow">In flight</div>
+          <h3>Short-term specialist assignments</h3>
+          <p>Targeted support for stalled R2R, costing, RAR, Group Reporting, close, intercompany or integration problems with a defined end state.</p>
+        </article>
+
+        <article class="card">
+          <div class="eyebrow">Enablement</div>
+          <h3>Training on your system</h3>
+          <p>Finance and Controlling enablement on the client's configuration and process variants rather than generic training slideware.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="eyebrow">Selected experience</div>
+      <h2>Global SAP Finance architecture across industries.</h2>
+
+      <div class="experience-item">
+        <div class="experience-date">2025 — Present</div>
+        <div>
+          <h3>SAP Finance Lead — Global high-technology manufacturer</h3>
+          <ul>
+            <li>Leading Finance and Controlling design for a multi-country S/4HANA Public Cloud transformation.</li>
+            <li>Running Fit-to-Standard workshops, digital delivery assessments and Finance design governance.</li>
+            <li>Driving standardization across Finance, costing, intercompany, Group Reporting and cross-functional integration.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="experience-date">2024 — 2025</div>
+        <div>
+          <h3>R2R Architect & Team Lead — Aerospace & Defense</h3>
+          <ul>
+            <li>Directed the R2R workstream on a complex S/4HANA Private Cloud / NS2 transformation.</li>
+            <li>Led 50+ R2R workshops and cross-functional design across PS, RAR, CO, Credit, Assets, intercompany and Group Reporting.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="experience-date">2023 — 2024</div>
+        <div>
+          <h3>R2R Solution Architect — Manufacturing</h3>
+          <ul>
+            <li>Finance and Controlling architect for an ECC-to-S/4HANA brownfield migration.</li>
+            <li>Designed Material Ledger, FIFO, parallel ledgers, multi-currency and chart-of-accounts rationalization.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="experience-date">Earlier</div>
+        <div>
+          <h3>Accenture · KPMG Consulting / BearingPoint · SAP America</h3>
+          <ul>
+            <li>Leadership and architecture roles across manufacturing, aerospace, healthcare, retail, financial services, energy, public sector and high technology.</li>
+            <li>Global template and transformation experience across the Americas, EMEA and APAC.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Credentials & platform depth</div>
+      <h2>Finance specialization with cross-functional reach.</h2>
+
+      <div class="grid-3" style="margin-top:26px">
+        <article class="card">
+          <h3>Platforms</h3>
+          <p>S/4HANA Public Cloud, S/4HANA Private Cloud / NS2, S/4HANA On-Premise and ECC.</p>
+        </article>
+        <article class="card">
+          <h3>Finance & Controlling</h3>
+          <p>FI, CO, R2R, Product Costing, Margin Analysis, RAR, Group Reporting, FSCM, Asset Accounting, Projects and intercompany.</p>
+        </article>
+        <article class="card">
+          <h3>Integration</h3>
+          <p>MM, SD, PP and PS integration; Cloud ALM, Signavio, global tax engines, banking and enterprise planning/reporting platforms.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="padding-top:48px">
+    <div class="wrap">
+      <div class="cta">
+        <div>
+          <div class="eyebrow">Talk before the design hardens</div>
+          <h2 style="margin-bottom:8px">Need an independent view of your SAP Finance program?</h2>
+          <p class="muted" style="margin:0;max-width:760px">
+            Available for client-side Finance architecture, SI design assurance, R2R leadership, targeted specialist work and consulting-firm pre-sales support.
+          </p>
+        </div>
+        <div>
+          <div style="margin-bottom:14px;color:#d7e1ec;font-size:.95rem">
+            <a href="mailto:crsrini@icloud.com" style="border-bottom:1px solid rgba(255,255,255,.24)">crsrini@icloud.com</a>
+            <span style="margin:0 8px;color:#718398">|</span>
+            <a href="tel:+16192509663" style="border-bottom:1px solid rgba(255,255,255,.24)">619.250.9663</a>
+          </div>
+          <div class="hero-actions" style="margin:0">
+            <a class="btn primary" href="mailto:crsrini@icloud.com?subject=SAP%20S%2F4HANA%20Finance%20Advisory">Email Srini</a>
+            <a class="btn secondary" href="tel:+16192509663">Call</a>
+            <a class="btn secondary" href="https://www.linkedin.com/in/srini-cr" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <strong style="color:white">Roads to HANA</strong><br />
+      A practice of Ramsara Garvis Consulting LLC
+    </div>
+    <div>
+      SAP S/4HANA Finance Architecture · Independent Advisory · Global Delivery
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
