@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Global Supply Chain That Actually Posts | Roads to HANA</title>
+  <meta name="description" content="One finished product, two manufacturing plants and an external subcontractor across three countries. What actually posts in SAP S/4HANA, where the design usually goes wrong, and what to fix before go-live." />
+  <meta name="keywords" content="SAP global supply chain, S/4HANA subcontracting, intercompany subcontracting, cross-plant subcontracting SAP, event-based production costing" />
+  <meta name="author" content="Ramsara Garvis Consulting LLC" />
+  <meta name="robots" content="index,follow" />
+ 
+  <link rel="canonical" href="https://roadstohana.com/insights/global-supply-chain-subcontracting.html" />
+ 
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://roadstohana.com/insights/global-supply-chain-subcontracting.html" />
+  <meta property="og:title" content="A Global Supply Chain That Actually Posts" />
+  <meta property="og:description" content="Components bought in the US, assembly in China, completion in India, sale back out of the US. What actually posts in S/4HANA." />
+  <meta property="og:site_name" content="Roads to HANA" />
+ 
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="A Global Supply Chain That Actually Posts" />
+  <meta name="twitter:description" content="What actually posts when one order runs through three countries." />
+ 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "A Global Supply Chain That Actually Posts",
+    "description": "One finished product, two manufacturing plants and an external subcontractor across three countries. What actually posts in SAP S/4HANA, and what to fix before go-live.",
+    "author": {
+      "@type": "Person",
+      "name": "CR Srini",
+      "jobTitle": "SAP S/4HANA Finance Architect",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Ramsara Garvis Consulting LLC"
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Ramsara Garvis Consulting LLC"
+    },
+    "mainEntityOfPage": "https://roadstohana.com/insights/global-supply-chain-subcontracting.html"
+  }
+  </script>
+ 
+  <style>
+    :root{
+      --bg:#07111d;
+      --bg2:#0c1826;
+      --text:#f4f7fb;
+      --muted:#afbed0;
+      --line:rgba(255,255,255,.12);
+      --green:#6fca75;
+      --brown:#c89663;
+      --blue:#5fa8ff;
+      --gold:#e3b767;
+      --radius:22px;
+      --max:1180px;
+    }
+ 
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(95,168,255,.12), transparent 28%),
+        radial-gradient(circle at 14% 18%, rgba(111,202,117,.08), transparent 24%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(var(--max),calc(100% - 38px));margin:auto}
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--gold);
+      font-size:.76rem;
+      font-weight:800;
+    }
+ 
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(7,17,29,.88);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{display:flex;justify-content:space-between;align-items:center;min-height:70px;gap:24px}
+    .brand{font-weight:900;letter-spacing:-.02em;font-size:1.03rem;white-space:nowrap}
+    .brand small{display:block;font-size:.7rem;color:var(--muted);font-weight:600;margin-top:-2px}
+    .links{display:flex;gap:18px;align-items:center;font-size:.9rem;color:#d7e1ec}
+    .links a:hover{color:white}
+    .links a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+    .menu-btn{
+      display:none;appearance:none;border:1px solid var(--line);
+      background:rgba(255,255,255,.04);color:var(--text);
+      border-radius:999px;padding:9px 14px;font:inherit;font-weight:800;cursor:pointer;
+    }
+    .resume-link{border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:2px}
+    .nav-cta{border:1px solid rgba(227,183,103,.7);color:#ffdf9f;padding:9px 13px;border-radius:999px;font-weight:800}
+ 
+    .article{width:min(46rem,calc(100% - 38px));margin:auto;padding:70px 0 40px}
+    h1{
+      font-size:clamp(2.1rem,5vw,3.4rem);
+      line-height:1.03;
+      letter-spacing:-.05em;
+      margin:12px 0 20px;
+    }
+    .standfirst{font-size:1.14rem;color:#c8d5e3;margin:0 0 8px}
+    .byline{color:var(--muted);font-size:.9rem;border-bottom:1px solid var(--line);padding-bottom:24px}
+    .article h2{
+      font-size:1.6rem;
+      letter-spacing:-.03em;
+      line-height:1.2;
+      margin:46px 0 14px;
+    }
+    .article p{margin:0 0 18px}
+    .article ul,.article ol{margin:0 0 18px;padding-left:22px;color:#dfe7f0}
+    .article li{margin-bottom:9px}
+    .article strong{color:#ffffff}
+ 
+    .callout{
+      border-left:4px solid var(--gold);
+      background:linear-gradient(90deg,rgba(227,183,103,.12),rgba(255,255,255,.02));
+      border-radius:0 16px 16px 0;
+      padding:22px 24px;
+      margin:30px 0;
+    }
+    .callout p{margin:0;font-size:1.12rem;line-height:1.4;letter-spacing:-.01em}
+ 
+    .lanes{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin:30px 0;
+    }
+    .lane{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:20px;
+      background:rgba(255,255,255,.025);
+      position:relative;
+      overflow:hidden;
+    }
+    .lane:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+    .lane.us:before{background:var(--blue)}
+    .lane.cn:before{background:var(--brown)}
+    .lane.in:before{background:var(--green)}
+    .lane h3{margin:0 0 8px;font-size:1.05rem;letter-spacing:-.01em}
+    .lane p{margin:0;color:var(--muted);font-size:.92rem}
+ 
+    .endnote{
+      border-top:1px solid var(--line);
+      margin-top:50px;
+      padding-top:26px;
+      color:var(--muted);
+      font-size:.93rem;
+    }
+    .backlink{display:inline-block;margin-top:26px;color:#ffdf9f;font-weight:700}
+ 
+    footer{
+      border-top:1px solid var(--line);
+      padding:32px 0 50px;
+      color:var(--muted);
+      font-size:.9rem;
+      margin-top:60px;
+    }
+    .footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+ 
+    @media(max-width:900px){
+      header .nav{position:relative}
+      .menu-btn{display:inline-flex;align-items:center;justify-content:center}
+      .links{
+        display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;
+        padding:14px 19px 18px;flex-direction:column;align-items:stretch;gap:0;
+        background:rgba(7,17,29,.98);border-bottom:1px solid var(--line);
+        box-shadow:0 20px 35px rgba(0,0,0,.28);
+      }
+      .links.open{display:flex}
+      .links a{padding:13px 4px;border-bottom:1px solid var(--line)}
+      .lanes{grid-template-columns:1fr}
+      .article{padding:46px 0 30px}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  </style>
+</head>
+<body>
+ 
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="../index.html">
+      Roads to HANA
+      <small>Ramsara Garvis Consulting LLC</small>
+    </a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav class="links" id="primaryNav" aria-label="Primary">
+      <a href="../index.html#advisor">Independent Advisor</a>
+      <a href="../index.html#approach">Roadmap</a>
+      <a href="../index.html#services">Services</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="./">Insights</a>
+      <a class="resume-link" href="../Srini_Murthy_Executive_Resume_5.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+ 
+<main>
+<article class="article">
+ 
+  <p class="eyebrow">Global supply chain</p>
+  <h1>A global supply chain that actually posts</h1>
+  <p class="standfirst">
+    One finished product. Components bought in the US, first assembly by a vendor in China,
+    completion at an affiliated plant in India, sale back out of the US. Here is what
+    actually posts in S/4HANA, and where the design usually goes wrong.
+  </p>
+  <p class="byline">CR Srini · Independent SAP S/4HANA Finance Architect</p>
+ 
+  <p>
+    Most supply chain designs I review are correct on the slide and wrong in the ledger.
+    The flow diagram shows material moving between three countries, everyone nods, and
+    the design goes to build. Six months later someone in Finance asks why work in
+    process in the US plant does not reconcile, and the answer takes three weeks to find.
+  </p>
+ 
+  <p>
+    So let me walk through a real one, anonymized. Two manufacturing plants and one
+    external vendor:
+  </p>
+ 
+  <div class="lanes">
+    <div class="lane us">
+      <h3>Plant US01</h3>
+      <p>Owns the customer, the finished product, the bill of material and the production order. Buys all the components.</p>
+    </div>
+    <div class="lane cn">
+      <h3>Vendor, China</h3>
+      <p>Third party. Performs the first assembly operation. Invoices a manufacturing service, not a part.</p>
+    </div>
+    <div class="lane in">
+      <h3>Plant IN01</h3>
+      <p>Affiliated entity, separate company code and currency. Completes the assembly. Bills US01 intercompany.</p>
+    </div>
+  </div>
+ 
+  <h2>What the flow looks like</h2>
+ 
+  <p>
+    US01 receives a customer order for a finished assembly and creates a production order
+    against it. The components come from one purchase order placed by US01, drop-shipped
+    from the supplier directly to both subcontractors. Nothing physically touches the US
+    plant except a kit that US01 assembles in house first.
+  </p>
+ 
+  <p>
+    The China vendor performs the first operation and ships the partly built product on
+    to India. IN01 completes it. The finished product ships to the customer, and IN01
+    bills US01 intercompany for its work.
+  </p>
+ 
+  <p>
+    Straightforward on a page. The design question is what all of that means in the
+    universal journal.
+  </p>
+ 
+  <h2>The trap: inventing a sub-assembly</h2>
+ 
+  <p>
+    The instinct is to model this as material flow. The China vendor builds a
+    sub-assembly, so give it a part number, receive it into US01, issue it onward to
+    India. That is how most people draw it and it is wrong here.
+  </p>
+ 
+  <p>
+    There is no sub-assembly part number in US01, because US01 never takes possession and
+    never needs to value one. The China vendor assembles the finished product itself,
+    incomplete, and India completes it. From US01's point of view both parties are
+    <strong>routing operations that invoice a manufacturing service</strong>. Nothing
+    more.
+  </p>
+ 
+  <div class="callout">
+    <p>
+      If you model an external processing step as a material, you will spend the rest of
+      the project explaining goods movements that never happened.
+    </p>
+  </div>
+ 
+  <p>
+    Get this wrong and you create a phantom part that has to be costed, planned, counted
+    and reconciled, for no business reason. You also invent goods issues that the physical
+    process does not support, which is exactly the sort of thing that shows up as an
+    unexplained work in process balance after go-live.
+  </p>
+ 
+  <p>
+    What IN01 does internally is a separate question. India needs its own local part to
+    issue against its own production order, and that is fine. It is an India part on an
+    India bill of material. It does not belong on the US01 structure, and the two do not
+    need to reconcile item for item.
+  </p>
+ 
+  <h2>What actually posts</h2>
+ 
+  <p>
+    Strip the story back to documents and the picture gets simple:
+  </p>
+ 
+  <ul>
+    <li><strong>One component purchase order</strong> in US01, covering the parts for both subcontract operations.</li>
+    <li><strong>One goods issue</strong> to the subcontractors when those components are consumed. That is the only material movement of components in the flow. Everything else is service.</li>
+    <li><strong>Two service receipts.</strong> One when the China vendor's operation is confirmed, one when India's is. Work in process in US01 rises at each.</li>
+    <li><strong>One intercompany billing document</strong> from IN01 to US01, and the matching payable in US01.</li>
+    <li><strong>One customer invoice</strong> from US01, with cost of goods sold at standard and the variance posted separately.</li>
+  </ul>
+ 
+  <p>
+    Under event-based production costing the work in process and variance postings happen
+    at confirmation rather than at period end, which is a real improvement. It also means
+    a design error is visible in the ledger the same day instead of at month end. That is
+    a benefit if someone is looking, and a liability if nobody is.
+  </p>
+ 
+  <h2>The intercompany leg is where the money hides</h2>
+ 
+  <p>
+    Two design decisions on the India leg matter more than everything else on the diagram.
+  </p>
+ 
+  <p>
+    <strong>First, the transfer price.</strong> IN01 is a separate legal entity performing
+    a service for US01. That is an arm's length transaction and it needs a markup. I
+    regularly see this configured at zero markup, priced at cost, because it was set up as
+    an inventory transfer rather than a sale. The postings balance, so nothing looks
+    broken. What you have actually built is a transfer pricing exposure, and the India
+    entity showing no margin on work it genuinely performed.
+  </p>
+ 
+  <p>
+    <strong>Second, the cost component structure.</strong> The China service charge and
+    the India service charge have to land in separate cost components with their own
+    general ledger accounts. Not because costing needs the detail, but because group
+    reporting does. When you consolidate, you have to eliminate the intercompany profit in
+    the India charge and leave the China charge alone. If both are sitting in one
+    external processing bucket, nobody can separate them without a spreadsheet, and the
+    elimination becomes a manual journal that somebody re-derives every quarter.
+  </p>
+ 
+  <p>
+    Decide both before the first productive posting. Cost component structures are not
+    something you change comfortably once there is history behind them.
+  </p>
+ 
+  <h2>Three things to fix before go-live</h2>
+ 
+  <ol>
+    <li>
+      <strong>Set the intercompany price policy explicitly, in writing, with tax.</strong>
+      Not as a configuration afterthought. If your affiliated plant is billing at cost,
+      that is a decision somebody has to own, not a default nobody noticed.
+    </li>
+    <li>
+      <strong>Split the variance categories.</strong> A single figure telling you the
+      order ran over standard is not actionable. Input price, input quantity, resource
+      usage and lot size each point at a different owner. Configure the split before you
+      have a quarter of unexplained variance to explain.
+    </li>
+    <li>
+      <strong>Name who reviews variances daily.</strong> Event-based costing surfaces
+      problems immediately. That only helps if the report has an owner. In most of the
+      programs I see, this is unassigned at go-live and stays unassigned until the first
+      bad close.
+    </li>
+  </ol>
+ 
+  <h2>The wider point</h2>
+ 
+  <p>
+    None of this is exotic configuration. Subcontracting, intercompany billing and
+    event-based costing are all standard, and the system handles this flow well once it is
+    modeled honestly.
+  </p>
+ 
+  <p>
+    The failures come from modeling the process as somebody wishes it worked rather than
+    as it physically runs. A vendor who performs an operation is a service. A vendor who
+    delivers a part is a material. Getting that one distinction right at design time saves
+    a great deal of reconciliation later, and it is the sort of thing that is very cheap to
+    fix in a workshop and very expensive to fix after go-live.
+  </p>
+ 
+  <p>
+    If you are designing a flow like this, the test is simple. Walk one order end to end
+    and write down every document that will exist. If your list has documents in it that
+    nobody can point to a physical event for, the model is wrong.
+  </p>
+ 
+  <div class="endnote">
+    <p>
+      CR Srini is an independent SAP S/4HANA Finance Architect with 30 years of experience
+      across 38 global implementations, working with CFOs and Finance leaders as a
+      client-side advisor on R2R, Product Costing, Revenue Recognition and Group
+      Reporting. Details in this article are anonymized and simplified.
+    </p>
+    <a class="backlink" href="../index.html#contact">Discuss a design review</a>
+  </div>
+ 
+</article>
+</main>
+ 
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <strong style="color:white">Roads to HANA</strong><br />
+      A practice of Ramsara Garvis Consulting LLC
+    </div>
+    <div>
+      SAP S/4HANA Finance Architecture · Independent Advisory · Global Delivery
+    </div>
+  </div>
+</footer>
+ 
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const primaryNav = document.getElementById('primaryNav');
+ 
+  if (menuBtn && primaryNav) {
+    menuBtn.addEventListener('click', () => {
+      const isOpen = primaryNav.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      menuBtn.textContent = isOpen ? 'Close' : 'Menu';
+    });
+ 
+    primaryNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        primaryNav.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.textContent = 'Menu';
+      });
+    });
+  }
+</script>
+ 
+</body>
+</html>
+ 
