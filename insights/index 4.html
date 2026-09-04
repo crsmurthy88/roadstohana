@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insights | Roads to HANA</title>
+  <meta name="description" content="Field notes on SAP S/4HANA finance architecture — global supply chain design, group reporting, product costing and cutover strategy, from an independent architect." />
+  <meta name="keywords" content="SAP S/4HANA finance insights, S/4HANA architecture articles, group reporting, product costing, cutover strategy" />
+  <meta name="author" content="Ramsara Garvis Consulting LLC" />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="canonical" href="https://roadstohana.com/insights/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://roadstohana.com/insights/" />
+  <meta property="og:title" content="Insights — Roads to HANA" />
+  <meta property="og:description" content="Field notes on SAP S/4HANA finance architecture from an independent architect." />
+  <meta property="og:site_name" content="Roads to HANA" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Insights — Roads to HANA" />
+  <meta name="twitter:description" content="Field notes on SAP S/4HANA finance architecture." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Roads to HANA — Insights",
+    "description": "Field notes on SAP S/4HANA finance architecture.",
+    "url": "https://roadstohana.com/insights/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Ramsara Garvis Consulting LLC"
+    }
+  }
+  </script>
+
+  <style>
+    :root{
+      --bg:#07111d;
+      --bg2:#0c1826;
+      --text:#f4f7fb;
+      --muted:#afbed0;
+      --line:rgba(255,255,255,.12);
+      --green:#6fca75;
+      --brown:#c89663;
+      --blue:#5fa8ff;
+      --gold:#e3b767;
+      --radius:22px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(95,168,255,.12), transparent 28%),
+        radial-gradient(circle at 14% 18%, rgba(111,202,117,.08), transparent 24%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(var(--max),calc(100% - 38px));margin:auto}
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--gold);
+      font-size:.76rem;
+      font-weight:800;
+    }
+
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(7,17,29,.88);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{display:flex;justify-content:space-between;align-items:center;min-height:70px;gap:24px}
+    .brand{font-weight:900;letter-spacing:-.02em;font-size:1.03rem;white-space:nowrap}
+    .brand small{display:block;font-size:.7rem;color:var(--muted);font-weight:600;margin-top:-2px}
+    .links{display:flex;gap:18px;align-items:center;font-size:.9rem;color:#d7e1ec}
+    .links a:hover{color:white}
+    .links a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+    .menu-btn{
+      display:none;appearance:none;border:1px solid var(--line);
+      background:rgba(255,255,255,.04);color:var(--text);
+      border-radius:999px;padding:9px 14px;font:inherit;font-weight:800;cursor:pointer;
+    }
+    .resume-link{border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:2px}
+    .nav-cta{border:1px solid rgba(227,183,103,.7);color:#ffdf9f;padding:9px 13px;border-radius:999px;font-weight:800}
+
+    .masthead{width:min(46rem,calc(100% - 38px));margin:auto;padding:70px 0 10px}
+    h1{
+      font-size:clamp(2.1rem,5vw,3.4rem);
+      line-height:1.03;
+      letter-spacing:-.05em;
+      margin:12px 0 20px;
+    }
+    .standfirst{font-size:1.14rem;color:#c8d5e3;margin:0 0 30px}
+
+    .list{width:min(46rem,calc(100% - 38px));margin:auto;padding:0 0 20px}
+    .card{
+      display:block;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:rgba(255,255,255,.025);
+      padding:26px 28px;
+      margin-bottom:16px;
+      position:relative;
+      overflow:hidden;
+      transition:border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+    .card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--blue)}
+    .card:hover{border-color:rgba(227,183,103,.5);background:rgba(255,255,255,.045);transform:translateY(-2px)}
+    .card:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+    .card h2{margin:10px 0 10px;font-size:1.42rem;letter-spacing:-.03em;line-height:1.2}
+    .card p{margin:0;color:var(--muted);font-size:.98rem}
+    .meta{margin-top:14px;color:#8fa2b8;font-size:.85rem}
+    .readmore{display:inline-block;margin-top:16px;color:#ffdf9f;font-weight:700;font-size:.92rem}
+
+    .upcoming{
+      border-top:1px solid var(--line);
+      margin-top:44px;
+      padding-top:26px;
+      color:var(--muted);
+      font-size:.93rem;
+    }
+    .upcoming h3{margin:0 0 12px;font-size:1.05rem;color:var(--text);letter-spacing:-.01em}
+    .upcoming ul{margin:0;padding-left:22px}
+    .upcoming li{margin-bottom:8px}
+    .backlink{display:inline-block;margin-top:26px;color:#ffdf9f;font-weight:700}
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:32px 0 50px;
+      color:var(--muted);
+      font-size:.9rem;
+      margin-top:60px;
+    }
+    .footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+    @media(max-width:900px){
+      header .nav{position:relative}
+      .menu-btn{display:inline-flex;align-items:center;justify-content:center}
+      .links{
+        display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;
+        padding:14px 19px 18px;flex-direction:column;align-items:stretch;gap:0;
+        background:rgba(7,17,29,.98);border-bottom:1px solid var(--line);
+        box-shadow:0 20px 35px rgba(0,0,0,.28);
+      }
+      .links.open{display:flex}
+      .links a{padding:13px 4px;border-bottom:1px solid var(--line)}
+      .masthead{padding:46px 0 6px}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="../index.html">
+      Roads to HANA
+      <small>Ramsara Garvis Consulting LLC</small>
+    </a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav class="links" id="primaryNav" aria-label="Primary">
+      <a href="../index.html#advisor">Independent Advisor</a>
+      <a href="../index.html#approach">Roadmap</a>
+      <a href="../index.html#services">Services</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="./">Insights</a>
+      <a class="resume-link" href="../Srini_Murthy_Executive_Resume_5.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<div class="masthead">
+  <p class="eyebrow">Insights</p>
+  <h1>Field notes from the architecture seat</h1>
+  <p class="standfirst">
+    What actually posts, where designs break, and what to fix before go-live. Written from live
+    S/4HANA finance engagements — no vendor pitch, no theory.
+  </p>
+</div>
+
+<div class="list">
+
+  <a class="card" href="global-supply-chain-subcontracting.html">
+    <p class="eyebrow">Global supply chain</p>
+    <h2>A global supply chain that actually posts</h2>
+    <p>
+      One finished product, two manufacturing plants and an external subcontractor across three
+      countries. What S/4HANA actually posts at each step, where the design usually goes wrong,
+      and what to fix before go-live.
+    </p>
+    <p class="meta">CR Srini · Independent SAP S/4HANA Finance Architect</p>
+    <span class="readmore">Read the article →</span>
+  </a>
+
+  <div class="upcoming">
+    <h3>In the pipeline</h3>
+    <ul>
+      <li>Global supply chain and finance — the same scenario read from the ledger side.</li>
+      <li>Group Reporting across differing fiscal year variants, mid-year go-lives and cutover strategy.</li>
+    </ul>
+  </div>
+
+  <a class="backlink" href="../index.html#contact">← Start a conversation</a>
+
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <strong style="color:white">Roads to HANA</strong><br />
+      A practice of Ramsara Garvis Consulting LLC
+    </div>
+    <div>
+      SAP S/4HANA Finance Architecture · Independent Advisory · Global Delivery
+    </div>
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const primaryNav = document.getElementById('primaryNav');
+
+  if (menuBtn && primaryNav) {
+    menuBtn.addEventListener('click', () => {
+      const isOpen = primaryNav.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      menuBtn.textContent = isOpen ? 'Close' : 'Menu';
+    });
+
+    primaryNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        primaryNav.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.textContent = 'Menu';
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
