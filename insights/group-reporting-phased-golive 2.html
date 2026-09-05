@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Consolidation Doesn't Get a Phased Go-Live | Roads to HANA</title>
+  <meta name="description" content="Three go-live waves across five regions, one entity on a non-calendar fiscal year, and a group close that has to keep landing every quarter. How we designed the cutover for SAP S/4HANA Group Reporting." />
+  <meta name="keywords" content="SAP Group Reporting cutover, S/4HANA phased go-live, consolidation cutover strategy, non-calendar fiscal year variant, Release Universal Journal, GRDC data collection" />
+  <meta name="author" content="Ramsara Garvis Consulting LLC" />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="canonical" href="https://roadstohana.com/insights/group-reporting-phased-golive.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://roadstohana.com/insights/group-reporting-phased-golive.html" />
+  <meta property="og:title" content="The Consolidation Doesn't Get a Phased Go-Live" />
+  <meta property="og:description" content="Three waves, five regions, one non-calendar fiscal year — and a group close that still has to land every quarter." />
+  <meta property="og:site_name" content="Roads to HANA" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Consolidation Doesn't Get a Phased Go-Live" />
+  <meta name="twitter:description" content="How to keep a group close intact through a three-wave S/4HANA rollout." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Consolidation Doesn't Get a Phased Go-Live",
+    "description": "Three go-live waves across five regions, one entity on a non-calendar fiscal year, and a group close that has to keep landing every quarter.",
+    "author": {
+      "@type": "Person",
+      "name": "CR Srini",
+      "jobTitle": "SAP S/4HANA Finance Architect",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Ramsara Garvis Consulting LLC"
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Ramsara Garvis Consulting LLC"
+    }
+  }
+  </script>
+
+  <style>
+    :root{
+      --bg:#07111d;
+      --bg2:#0c1826;
+      --text:#f4f7fb;
+      --muted:#afbed0;
+      --line:rgba(255,255,255,.12);
+      --green:#6fca75;
+      --brown:#c89663;
+      --blue:#5fa8ff;
+      --gold:#e3b767;
+      --radius:22px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(95,168,255,.12), transparent 28%),
+        radial-gradient(circle at 14% 18%, rgba(111,202,117,.08), transparent 24%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(var(--max),calc(100% - 38px));margin:auto}
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--gold);
+      font-size:.76rem;
+      font-weight:800;
+    }
+
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(7,17,29,.88);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{display:flex;justify-content:space-between;align-items:center;min-height:70px;gap:24px}
+    .brand{font-weight:900;letter-spacing:-.02em;font-size:1.03rem;white-space:nowrap}
+    .brand small{display:block;font-size:.7rem;color:var(--muted);font-weight:600;margin-top:-2px}
+    .links{display:flex;gap:18px;align-items:center;font-size:.9rem;color:#d7e1ec}
+    .links a:hover{color:white}
+    .links a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+    .menu-btn{
+      display:none;appearance:none;border:1px solid var(--line);
+      background:rgba(255,255,255,.04);color:var(--text);
+      border-radius:999px;padding:9px 14px;font:inherit;font-weight:800;cursor:pointer;
+    }
+    .resume-link{border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:2px}
+    .nav-cta{border:1px solid rgba(227,183,103,.7);color:#ffdf9f;padding:9px 13px;border-radius:999px;font-weight:800}
+
+    .article{width:min(46rem,calc(100% - 38px));margin:auto;padding:70px 0 40px}
+    h1{
+      font-size:clamp(2.1rem,5vw,3.4rem);
+      line-height:1.03;
+      letter-spacing:-.05em;
+      margin:12px 0 20px;
+    }
+    .standfirst{font-size:1.14rem;color:#c8d5e3;margin:0 0 8px}
+    .byline{color:var(--muted);font-size:.9rem;border-bottom:1px solid var(--line);padding-bottom:24px}
+    .article h2{
+      font-size:1.6rem;
+      letter-spacing:-.03em;
+      line-height:1.2;
+      margin:46px 0 14px;
+    }
+    .article p{margin:0 0 18px}
+    .article ul,.article ol{margin:0 0 18px;padding-left:22px;color:#dfe7f0}
+    .article li{margin-bottom:9px}
+    .article strong{color:#ffffff}
+
+    .callout{
+      border-left:4px solid var(--gold);
+      background:linear-gradient(90deg,rgba(227,183,103,.12),rgba(255,255,255,.02));
+      border-radius:0 16px 16px 0;
+      padding:22px 24px;
+      margin:30px 0;
+    }
+    .callout p{margin:0;font-size:1.12rem;line-height:1.4;letter-spacing:-.01em}
+
+    .lanes{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin:30px 0;
+    }
+    .lane{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:20px;
+      background:rgba(255,255,255,.025);
+      position:relative;
+      overflow:hidden;
+    }
+    .lane:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+    .lane.w1:before{background:var(--blue)}
+    .lane.w2:before{background:var(--brown)}
+    .lane.w3:before{background:var(--green)}
+    .lane h3{margin:0 0 8px;font-size:1.05rem;letter-spacing:-.01em}
+    .lane p{margin:0;color:var(--muted);font-size:.92rem}
+
+    .tablewrap{overflow-x:auto;margin:30px 0;border:1px solid var(--line);border-radius:16px}
+    table{border-collapse:collapse;width:100%;min-width:520px;font-size:.92rem}
+    th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line)}
+    th{color:var(--gold);font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;font-weight:800}
+    tbody tr:last-child td{border-bottom:none}
+    td strong{color:#fff}
+
+    .endnote{
+      border-top:1px solid var(--line);
+      margin-top:50px;
+      padding-top:26px;
+      color:var(--muted);
+      font-size:.93rem;
+    }
+    .backlink{display:inline-block;margin-top:26px;color:#ffdf9f;font-weight:700}
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:32px 0 50px;
+      color:var(--muted);
+      font-size:.9rem;
+      margin-top:60px;
+    }
+    .footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+    @media(max-width:900px){
+      header .nav{position:relative}
+      .menu-btn{display:inline-flex;align-items:center;justify-content:center}
+      .links{
+        display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;
+        padding:14px 19px 18px;flex-direction:column;align-items:stretch;gap:0;
+        background:rgba(7,17,29,.98);border-bottom:1px solid var(--line);
+        box-shadow:0 20px 35px rgba(0,0,0,.28);
+      }
+      .links.open{display:flex}
+      .links a{padding:13px 4px;border-bottom:1px solid var(--line)}
+      .article{padding:46px 0 30px}
+      .lanes{grid-template-columns:1fr}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="../index.html">
+      Roads to HANA
+      <small>Ramsara Garvis Consulting LLC</small>
+    </a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav class="links" id="primaryNav" aria-label="Primary">
+      <a href="../index.html#advisor">Independent Advisor</a>
+      <a href="../index.html#approach">Roadmap</a>
+      <a href="../index.html#services">Services</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="./">Insights</a>
+      <a class="resume-link" href="../Srini_Murthy_Executive_Resume_5.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<article class="article">
+
+  <p class="eyebrow">Group Reporting</p>
+  <h1>The consolidation doesn't get a phased go-live</h1>
+  <p class="standfirst">
+    Three go-live waves across five regions, one entity on a non-calendar fiscal year, and a group
+    close that still has to land every single quarter in between. The rollout phases. The
+    consolidation does not.
+  </p>
+  <p class="byline">CR Srini &middot; Independent SAP S/4HANA Finance Architect</p>
+
+  <p>
+    The client was already live on SAP S/4HANA Group Reporting. That is worth stating up front,
+    because it changes the problem entirely. Nobody was building a consolidation. The consolidation
+    existed, it worked, and it produced statutory numbers on a fixed calendar. What was changing
+    was everything underneath it — the transactional systems feeding it, region by region, over
+    roughly twelve months.
+  </p>
+
+  <p>
+    Entities sat in Asia, the Indian sub-continent, the Middle East, Europe and North America. One
+    of them ran an April&ndash;March fiscal year while the group consolidated on the calendar year.
+    Go-live was planned in three waves: <strong>August 2027</strong>, <strong>May 2028</strong> and
+    <strong>August 2028</strong>.
+  </p>
+
+  <p>
+    Look at those dates against a December year-end and the shape of the problem is immediate.
+    Every one of them lands mid-year.
+  </p>
+
+  <div class="lanes">
+    <div class="lane w1">
+      <h3>Wave 1 &mdash; Aug 2027</h3>
+      <p>North America and Europe. Seven months of the reporting year already closed on legacy.</p>
+    </div>
+    <div class="lane w2">
+      <h3>Wave 2 &mdash; May 2028</h3>
+      <p>Middle East and Asia. Four months on legacy, eight on S/4HANA.</p>
+    </div>
+    <div class="lane w3">
+      <h3>Wave 3 &mdash; Aug 2028</h3>
+      <p>Indian sub-continent, on a local year that doesn't align to the group's.</p>
+    </div>
+  </div>
+
+  <h2>The temptation, and why we refused it</h2>
+
+  <p>
+    The instinct on a project like this is to switch each entity to the integrated method the moment
+    it goes live. The wave is done, the data is in the universal journal, so release it to
+    consolidation and move on. It feels like progress and it demos beautifully.
+  </p>
+
+  <p>
+    It also means that in August 2027 you are running two different collection methods inside a
+    single reporting year for the same set of consolidation units — file-based for January to July,
+    integrated from August onward. Every comparative, every rollforward, every variance
+    investigation now has a seam in the middle of it. Auditors find that seam immediately, and they
+    are right to.
+  </p>
+
+  <div class="callout">
+    <p>
+      One collection method per consolidation unit per fiscal year. Changed only at 1 January.
+      Never mid-year.
+    </p>
+  </div>
+
+  <p>
+    That single rule drove the rest of the design. It is not a technical constraint — S/4HANA will
+    happily let you switch mid-year. It is a comparability constraint, and comparability is the
+    entire point of a consolidation.
+  </p>
+
+  <h2>What that means in practice</h2>
+
+  <p>
+    If a unit's fiscal year is split across two systems, that whole year is submitted by file. Not
+    the legacy portion by file and the S/4HANA portion by release — the whole year, one method,
+    from a trial balance assembled outside the consolidation. The integrated release from the
+    universal journal is switched on effective period 001 of the first fiscal year the unit spends
+    entirely on S/4HANA.
+  </p>
+
+  <p>
+    Applied to the three waves, that produces this:
+  </p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Reporting year</th>
+          <th>Wave 1</th>
+          <th>Wave 2</th>
+          <th>Wave 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>FY2027</strong></td>
+          <td>Split year &mdash; file</td>
+          <td>Legacy &mdash; file</td>
+          <td>Legacy &mdash; file</td>
+        </tr>
+        <tr>
+          <td><strong>FY2028</strong></td>
+          <td>Full year on S/4HANA</td>
+          <td>Split year &mdash; file</td>
+          <td>Split year &mdash; file</td>
+        </tr>
+        <tr>
+          <td><strong>FY2029</strong></td>
+          <td>Integrated</td>
+          <td>Integrated</td>
+          <td>Integrated</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    FY2028 is the interesting row. Wave 1 is technically eligible to switch to the integrated
+    method — it has a clean twelve months on S/4HANA. We recommended against it, and the client
+    agreed.
+  </p>
+
+  <p>
+    Running one third of the group on release-from-journal while the other two thirds are still
+    submitting files means the close team is operating two processes in parallel, on different
+    timetables, with different failure modes, in the same period. During the most exposed year of
+    the program. The gain is one year of slightly cleaner lineage for a third of the entities. The
+    cost is a close team learning two methods at once while two go-lives are still in flight.
+  </p>
+
+  <p>
+    So: everything stays file-based through the end of FY2028. All three waves flip together at
+    period 001 of FY2029. One change, one date, one set of parallel-run tests, one rehearsal.
+  </p>
+
+  <h2>The non-calendar entity is the genuinely hard one</h2>
+
+  <p>
+    Group Reporting consolidates by the group's fiscal year and period. A unit posting on an
+    April&ndash;March local year has to be mapped onto that calendar for consolidation, and the
+    mapping is where the thinking goes.
+  </p>
+
+  <p>
+    Its August 2028 go-live falls in month five of its <em>local</em> year, which began in April
+    2028 and runs to March 2029. That local year straddles two group calendar years. Which means
+    that even in FY2029 — the group's first clean, fully integrated year — the opening position for
+    that unit is carried out of a local fiscal year that was half legacy and half S/4HANA.
+  </p>
+
+  <p>
+    The unit's first fully clean <em>local</em> year does not start until April 2029, three months
+    after the group has already declared itself integrated. Two calendars, two definitions of
+    "clean," and they do not line up.
+  </p>
+
+  <p>
+    Our position: the group calendar governs consolidation, full stop. The unit submits on group
+    periods throughout, the local fiscal year variant stays a local reporting concern, and the
+    period mapping is documented and tested well before the first submission rather than discovered
+    during a close. Separately, do not let anyone use the phrase "calendar period" in a design
+    document without defining whether they mean the group's or the entity's. We had to unpick that
+    ambiguity more than once.
+  </p>
+
+  <h2>The trap: year-to-date versus periodic</h2>
+
+  <p>
+    This is the one that nearly went unnoticed, and it is the reason the split-year rule has to be
+    written down carefully rather than assumed.
+  </p>
+
+  <p>
+    A split-year design is naturally described in periodic terms: legacy movements for January to
+    July, S/4HANA movements for August to December, stack them, submit the year. Clean and obvious.
+  </p>
+
+  <p>
+    But many groups load <strong>year-to-date</strong> trial balances into Group Reporting, not
+    periodic movements. If that is how your data collection is configured, then every file
+    submitted from period 008 onward has to carry the full cumulative January-to-date position —
+    including the seven months that were never posted in S/4HANA. The new system simply does not
+    hold them, unless the go-live migration loaded current-year profit and loss by period rather
+    than an opening balance sheet alone.
+  </p>
+
+  <p>
+    Most migrations do not. Most load an opening balance sheet.
+  </p>
+
+  <div class="callout">
+    <p>
+      Confirm whether your collection is periodic or year-to-date before you design the split year.
+      The two produce completely different migration requirements.
+    </p>
+  </div>
+
+  <p>
+    There are only two honest answers. Either migrate current-year profit and loss by period so the
+    cumulative position exists in S/4HANA, or assemble the full-year trial balance outside the
+    system and submit it whole. We took the second, which is exactly what the file-based interim
+    already does — and that consistency is a large part of why the design held together.
+  </p>
+
+  <h2>Sequencing the rest</h2>
+
+  <p>
+    Two mechanics follow the same logic and should move on the same date as the method switch, not
+    ahead of it:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Currency translation and net income calculation.</strong> Run these on the new basis
+      only once every unit is on one method. Introducing them while half the group is still
+      file-based means debugging translation differences and collection differences at the same
+      time, in a live close.
+    </li>
+    <li>
+      <strong>Reconciliation, in both directions.</strong> The common failure is a one-legged
+      tie-out: transaction data reconciled forward into the consolidation, with nothing checking
+      the consolidated result back against source. Build both legs. During a phased rollout the
+      back-leg is what catches a wave that quietly stopped submitting.
+    </li>
+  </ul>
+
+  <p>
+    Add to that a defined legacy retention period — we set twenty-four months, read-only — because
+    restatements and audit questions on FY2027 and FY2028 will arrive well after the last legacy
+    system was due to be switched off. If nobody owns that decision, the systems get
+    decommissioned on the infrastructure team's timetable, not finance's.
+  </p>
+
+  <h2>What to settle before you build</h2>
+
+  <ol>
+    <li>Is data collection periodic or year-to-date? Everything else depends on the answer.</li>
+    <li>Does the migration load current-year profit and loss, or only an opening balance sheet?</li>
+    <li>Which fiscal year is the first with every unit on the target system for all twelve periods? That is your switch date, and it is usually one year later than the plan assumes.</li>
+    <li>For any non-calendar entity, whose periods govern the consolidation — and is that written down?</li>
+    <li>How long does legacy stay readable, who pays for it, and who signs off switching it off?</li>
+  </ol>
+
+  <p>
+    None of these are exotic. All five are routinely left until the first close after go-live, at
+    which point they are no longer design questions. They are incidents.
+  </p>
+
+  <div class="endnote">
+    <p>
+      The engagement behind this piece is a live S/4HANA program spanning five regions and three
+      go-live waves. Client details are omitted deliberately. If you are planning a phased rollout
+      underneath an existing consolidation and want the cutover pressure-tested before it is
+      committed, that is the kind of work I do.
+    </p>
+    <a class="backlink" href="../index.html#contact">&larr; Start a conversation</a>
+  </div>
+
+</article>
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <strong style="color:white">Roads to HANA</strong><br />
+      A practice of Ramsara Garvis Consulting LLC
+    </div>
+    <div>
+      SAP S/4HANA Finance Architecture &middot; Independent Advisory &middot; Global Delivery
+    </div>
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const primaryNav = document.getElementById('primaryNav');
+
+  if (menuBtn && primaryNav) {
+    menuBtn.addEventListener('click', () => {
+      const isOpen = primaryNav.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      menuBtn.textContent = isOpen ? 'Close' : 'Menu';
+    });
+
+    primaryNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        primaryNav.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.textContent = 'Menu';
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
